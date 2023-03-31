@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import './App.css';
 
-import Home from './components/Home/Home';
-import Settings from './components/Settings/Settings';
-import Commands from './components/Commands/CommandList';
+import Home from './components/Home';
+import Settings from './components/Settings';
+import Commands from './components/CommandList';
 
 function App() {
-  const history = useHistory();
+  const navigate = useNavigate();
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = async () => {
@@ -24,7 +24,7 @@ function App() {
     try {
       await axios.get('/auth/logout');
       setLoggedIn(false);
-      history.push('/');
+      navigate('/');
     } catch (error) {
       console.log(error);
     }
@@ -40,7 +40,7 @@ function App() {
           <button onClick={handleLogin}>Login with Discord</button>
         )}
       </header>
-      <Switch>
+      <Routes>
         <Route exact path="/">
           <Home />
         </Route>
@@ -50,7 +50,7 @@ function App() {
         <Route path="/commands">
           <Commands />
         </Route>
-      </Switch>
+      </Routes>
     </div>
   );
 }
